@@ -1,5 +1,6 @@
 # require 'httparty'
 require 'json'
+require 'graphql/schemas/root_schema.rb'
 
 def lambda_handler(event:, context:)
   # Sample pure Lambda function
@@ -27,12 +28,12 @@ def lambda_handler(event:, context:)
   #   puts error.inspect
   #   raise error
   # end
+  #
+
+  result_hash = RootSchema.execute(event["body"])
 
   {
     statusCode: 200,
-    body: {
-      message: "Hello World!",
-      # location: response.body
-    }.to_json
+    body: result_hash.to_json
   }
 end
